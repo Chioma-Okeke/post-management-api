@@ -29,7 +29,7 @@ const create_a_post = async (req, res, next) => {
 
     try {
         const user = await userModel.findById(userInfo);
-        console.log(user, "In here")
+        console.log(user, "In here");
         if (!user) {
             return res
                 .status(401)
@@ -86,8 +86,14 @@ const delete_a_post = async (req, res, next) => {
     }
 
     try {
+        const user = await userModel.findById(userInfo);
         await postModel.findByIdAndDelete(id);
         res.status(200).json({ msg: "Post successfully deleted" });
+        const idIndex = user.postIds.indexOf(id);
+        if (idIndex > -1) {
+            user.postIds.splice(idIndex, 1);
+        }
+        await user.save();
     } catch (error) {
         next(error);
     }
