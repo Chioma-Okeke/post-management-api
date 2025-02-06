@@ -34,8 +34,9 @@ const create_a_post = async (req, res, next) => {
                 .json({ msg: "You need to be logged in to create a post" });
         }
 
-        const newPost = new postModel({ ...req.body, userInfo: userId._id });
+        const newPost = new postModel({ ...req.body, userId: userInfo._id });
         const createdPost = await newPost.save();
+        user.postIds.push(createdPost._id);
         res.status(200).json({ createdPost });
     } catch (error) {
         next(error);
