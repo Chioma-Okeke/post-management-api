@@ -20,7 +20,6 @@ const userModel = new mongoose.Schema(
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "post",
-                required: true,
             },
         ],
     },
@@ -29,4 +28,4 @@ const userModel = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model("User", userModel);
+module.exports = mongoose.model("user", userModel);
