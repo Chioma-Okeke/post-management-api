@@ -113,7 +113,8 @@ const update_a_user = async (req, res, next) => {
     const { id } = req.params;
     const update = req.body;
 
-    if (userInfo._id !== id) {
+    if (userInfo._id != id) {
+        console.log(userInfo._id, id)
         return res
             .status(401)
             .json({ msg: "You are not authorized to perform this action" });
@@ -131,7 +132,8 @@ const update_a_user = async (req, res, next) => {
         if (!updatedUserDetails) {
             return res.status(404).json({ msg: "No user found" });
         }
-        res.status(200).json(updatedUserDetails);
+        const {password: _, ...userData} = updatedUserDetails.toObject()
+        res.status(200).json(userData);
     } catch (error) {
         next(error);
     }
@@ -141,7 +143,7 @@ const delete_a_user = async (req, res, next) => {
     const userInfo = req.user;
     const { id } = req.params;
 
-    if (userInfo._id !== id) {
+    if (userInfo._id != id) {
         return res
             .status(401)
             .json({ msg: "You are not authorized to perform this action" });
