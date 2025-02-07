@@ -150,6 +150,12 @@ const delete_a_user = async (req, res, next) => {
     }
 
     try {
+        res.cookie("token", "", {
+            httpOnly: true,
+            secure: process.env.NOD_ENV === "production",
+            sameSite: "strict",
+            maxAge: 0,
+        });
         await userModel.findByIdAndDelete(id);
         res.status(200).json({ msg: "User successfully deleted" });
     } catch (error) {
